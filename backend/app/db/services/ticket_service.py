@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from app.db.repositories.ticket_repository import TicketRepository
 from app.db.repositories.event_repository import EventRepository
-from backend.app.db.models import Ticket
+from app.db.models import Ticket
 
 
 class TicketService:

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from typing import List
@@ -34,6 +34,25 @@ def list_events(db: Session = Depends(get_db)):
         content={
             "status": 200,
             "message": "All events",
+            "data": events_json,
+        },
+    )
+
+
+@router.get("/for-you")
+def events_for_you(
+    user_lat: float = Query(..., description="User latitude"),
+    user_lon: float = Query(..., description="User longitude"),
+    db: Session = Depends(get_db),
+):
+    events = EventService(db).get_nearby_events(user_lat, user_lon)
+    events_json = [e.model_dump(mode="json") for e in events]
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "status": 200,
+            "message": "Events near you",
             "data": events_json,
         },
     )
