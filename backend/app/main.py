@@ -11,6 +11,7 @@ from app.api.api_v1.routers.showings import showings_router
 from app.api.api_v1.routers.seats import seats_router
 from app.api.api_v1.routers.books import books_router
 from app.api.api_v1.routers.event import router as event_router
+from app.api.api_v1.routers.ticket import router as ticket_router
 
 from app.core import config
 from app.db.session import SessionLocal
@@ -41,6 +42,12 @@ app.include_router(
     event_router,
     prefix="/api/v1",
     tags=["event"],
+)
+
+app.include_router(
+    event_router,
+    prefix="/api/v1",
+    tags=["ticket"],
 )
 
 
