@@ -26,9 +26,7 @@ class TicketOut(BaseModel):
     status: TicketStatus
     created_at: datetime
 
-    model_config = {
-        "from_attributes": True  # allows from_orm usage in Pydantic v2
-    }
+    model_config = {"from_attributes": True}
 
 
 class TicketInDBBase(TicketBase):
