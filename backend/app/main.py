@@ -2,14 +2,15 @@ from fastapi import FastAPI, Depends
 from starlette.requests import Request
 import uvicorn
 
-from app.api.api_v1.routers.users import users_router 
-from app.api.api_v1.routers.auth import auth_router 
-from app.api.api_v1.routers.cinemas import cinemas_router 
-from app.api.api_v1.routers.halls import halls_router 
-from app.api.api_v1.routers.movies import movies_router 
-from app.api.api_v1.routers.showings import showings_router 
-from app.api.api_v1.routers.seats import seats_router 
-from app.api.api_v1.routers.books import books_router 
+from app.api.api_v1.routers.users import users_router
+from app.api.api_v1.routers.auth import auth_router
+from app.api.api_v1.routers.cinemas import cinemas_router
+from app.api.api_v1.routers.halls import halls_router
+from app.api.api_v1.routers.movies import movies_router
+from app.api.api_v1.routers.showings import showings_router
+from app.api.api_v1.routers.seats import seats_router
+from app.api.api_v1.routers.books import books_router
+from app.api.api_v1.routers.event import router as event_router
 
 from app.core import config
 from app.db.session import SessionLocal
@@ -34,6 +35,13 @@ async def db_session_middleware(request: Request, call_next):
 @app.get("/api/v1")
 async def root():
     return {"message": "Hello World"}
+
+
+app.include_router(
+    event_router,
+    prefix="/api/v1",
+    tags=["event"],
+)
 
 
 @app.get("/api/v1/task")
@@ -87,11 +95,7 @@ app.include_router(
     tags=["books"],
 )
 
-app.include_router(
-    auth_router,
-    prefix="/api",
-    tags=["auth"]
-)
+app.include_router(auth_router, prefix="/api", tags=["auth"])
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)
