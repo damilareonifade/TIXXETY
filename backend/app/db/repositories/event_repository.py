@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.db.models import Event
-from geoalchemy2.shape import from_shape
-from shapely.geometry import Point
+
+# from geoalchemy2.shape import from_shape
+# from shapely.geometry import Point
 from sqlalchemy import func
 from app.db.schemas.event import EventOut
 
@@ -36,7 +37,7 @@ class EventRepository:
     def nearby_events(
         self, user_lat: float, user_lon: float, radius_km: float = 10
     ):
-        user_point = from_shape(Point(user_lon, user_lat), srid=4326)
+        # user_point = from_shape(Point(user_lon, user_lat), srid=4326)
         radius_m = radius_km * 1000  # meters
 
         return (

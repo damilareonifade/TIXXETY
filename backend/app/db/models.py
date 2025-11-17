@@ -9,7 +9,8 @@ from sqlalchemy import (
     Text,
     ForeignKey,
 )
-from geoalchemy2 import Geography
+
+# from geoalchemy2 import Geography
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.orm import relationship
 from enum import Enum
@@ -50,9 +51,9 @@ class Event(Base):
     tickets_sold = Column(Integer, nullable=False, default=0)
     venue = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    location = Column(
-        Geography(geometry_type="POINT", srid=4326), nullable=False
-    )
+    # location = Column(
+    #     Geography(geometry_type="POINT", srid=4326), nullable=False
+    # )
 
     # Relationship
     tickets = relationship(
