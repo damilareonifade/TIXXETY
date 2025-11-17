@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from starlette.requests import Request
 import uvicorn
+from celery import current_app as celery_app
 
 from app.api.api_v1.routers.users import users_router
 from app.api.api_v1.routers.auth import auth_router
@@ -36,6 +37,14 @@ async def db_session_middleware(request: Request, call_next):
 @app.get("/api/v1")
 async def root():
     return {"message": "Hello World"}
+
+
+@app.on_event("startup")
+async def schedule_periodic_tasks():
+    """
+    Schedule periodic tasks for Celery.
+    """
+    celery_app.send_task("app.tasks.expire_unpaid_tickets_task")
 
 
 app.include_router(
